@@ -6,11 +6,11 @@ import java.util.concurrent.Semaphore;
 public class QuickPopDataStructure<T> implements IPQueue<T> {
 
     public Node queueHead;
-    Comparator<T> comparator;
+    private Comparator<T> comparator;
 
-    Object lockPush = new Object();
-    Object lockPop = new Object();
-    Semaphore pqSizeSemaphoe = new Semaphore(0);
+    private Object lockPush = new Object();
+    private Object lockPop = new Object();
+    private Semaphore pqSizeSemaphoe = new Semaphore(0);
 
     public QuickPopDataStructure(Comparator<? super T> comperator) {
         this.comparator = (Comparator<T>) comperator;
@@ -35,18 +35,19 @@ public class QuickPopDataStructure<T> implements IPQueue<T> {
                 pqSizeSemaphoe.release();
                 return;
             }
-            while (curNode.nextNode != null && comparator.compare(curNode.data, newNode.data) >= 0) {
+            while (curNode.nextNode != null && comparator.compare(curNode.data, newNode.data) > 0) {
                 curNode = curNode.nextNode;
             }
 
-            if (curNode.nextNode != null ) {
+            if (curNode.nextNode == null) {
+                newNode.prevNode = curNode;
+                curNode.nextNode = newNode;
+
+            } else {
                 newNode.nextNode = curNode;
                 newNode.prevNode = curNode.prevNode;
                 curNode.prevNode.nextNode = newNode;
                 curNode.prevNode = newNode;
-            }else {
-                newNode.prevNode = curNode;
-                curNode.nextNode = newNode;
             }
             pqSizeSemaphoe.release();
         }
@@ -71,7 +72,7 @@ public class QuickPopDataStructure<T> implements IPQueue<T> {
         return data;
     }
 
-    class Node<T> {
+     class Node<T> {
 
         private Node nextNode;
 
@@ -84,9 +85,11 @@ public class QuickPopDataStructure<T> implements IPQueue<T> {
             this.nextNode = nextNode;
             this.prevNode = prevNode;
         }
+
         public Node getNextNode() {
             return nextNode;
         }
+
         public Node getPrevNode() {
             return prevNode;
         }
