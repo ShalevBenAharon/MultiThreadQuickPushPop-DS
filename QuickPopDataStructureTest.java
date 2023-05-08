@@ -3,6 +3,7 @@ package DeveloperExercise;
 import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,12 +19,12 @@ class QuickPopDataStructureTest {
         PQ.push(7);
         PQ.push(2);
         PQ.push(4);
-
-        assertEquals(7, PQ.queueHead.getData());
-        assertEquals(6, PQ.queueHead.getNextNode().getData());
-        assertEquals(4, PQ.queueHead.getNextNode().getNextNode().getData());
-        assertEquals(3, PQ.queueHead.getNextNode().getNextNode().getNextNode().getData());
-        assertEquals(2, PQ.queueHead.getNextNode().getNextNode().getNextNode().getNextNode().getData());
+        Iterator runner = PQ.iterator();
+        assertEquals(7, runner.next());
+        assertEquals(6, runner.next());
+        assertEquals(4, runner.next());
+        assertEquals(3, runner.next());
+        assertEquals(2, runner.next());
 
         classQueue.push(new ClassMate("Shani",32));
         classQueue.push(new ClassMate("Ouri",26));

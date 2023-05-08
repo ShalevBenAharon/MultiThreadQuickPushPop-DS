@@ -1,9 +1,11 @@
 package DeveloperExercise;
 
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.concurrent.Semaphore;
 
-public class QuickPopDataStructure<T> implements IPQueue<T> {
+public class QuickPopDataStructure<T> implements IPQueue<T> , Iterable {
 
     public Node queueHead;
     private Comparator<T> comparator;
@@ -72,7 +74,34 @@ public class QuickPopDataStructure<T> implements IPQueue<T> {
             curNode.prevNode = newNode;
         }
     }
-      class Node<T> {
+
+    @Override
+    public Iterator iterator() {
+        return new PQIterator(queueHead);
+    }
+
+    private class PQIterator implements Iterator<T>{
+        private Node<T> currentNode;
+
+        public PQIterator(Node<T> startNode){
+            currentNode = startNode;
+        }
+        @Override
+        public boolean hasNext() {
+            return currentNode.nextNode != null;
+        }
+
+        @Override
+        public T next() {
+            T data = currentNode.getData();
+            if(hasNext()) {
+                currentNode = currentNode.getNextNode();
+            }
+            return data;
+        }
+    }
+
+    class Node<T> {
 
         private Node nextNode;
 
@@ -86,11 +115,11 @@ public class QuickPopDataStructure<T> implements IPQueue<T> {
             this.prevNode = prevNode;
         }
 
-        public Node getNextNode() {
+        private Node getNextNode() {
             return nextNode;
         }
 
-        public Node getPrevNode() {
+        private Node getPrevNode() {
             return prevNode;
         }
 

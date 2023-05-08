@@ -1,15 +1,17 @@
 package DeveloperExercise;
 
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.concurrent.Semaphore;
 
-public class QuickPushDataStructure<T> implements IPQueue<T> {
+public class QuickPushDataStructure<T> implements IPQueue<T>, Iterable {
 
     private Node<T> queueHead;
     private Comparator<T> comparator;
 
-    private Object pushLock = new Object();
-    private Object popLock = new Object();
+    private Object lockPush = new Object();
+    private Object lockPop = new Object();
     private Semaphore resourceSemaphore = new Semaphore(0);
 
     public QuickPushDataStructure(Comparator<? extends T> comper) {
@@ -19,7 +21,7 @@ public class QuickPushDataStructure<T> implements IPQueue<T> {
 
     @Override
     public void push(T data) {
-        synchronized (pushLock) {
+        synchronized (lockPush) {
 
             Node<T> newHead = new Node<>(data, queueHead, null);
             queueHead.prevNode = newHead;
@@ -34,7 +36,7 @@ public class QuickPushDataStructure<T> implements IPQueue<T> {
         }catch (InterruptedException e){
             throw new RuntimeException("Thread Interrupt ");
         }
-        synchronized (popLock) {
+        synchronized (lockPop) {
 
             Node<T> curNode = queueHead;
             Node<T> MaxNode = queueHead;
@@ -59,6 +61,31 @@ public class QuickPushDataStructure<T> implements IPQueue<T> {
         }
     }
 
+    @Override
+    public Iterator iterator() {
+        return new PQIterator(queueHead);
+    }
+
+    private class PQIterator implements Iterator<T>{
+        private Node<T> currentNode;
+
+        public PQIterator(Node<T> startNode){
+            currentNode = startNode;
+        }
+        @Override
+        public boolean hasNext() {
+            return currentNode.nextNode != null;
+        }
+
+        @Override
+        public T next() {
+            T data = currentNode.getData();
+            if(hasNext()) {
+                currentNode = currentNode.getNextNode();
+            }
+            return data;
+        }
+    }
     class Node<T> {
 
         private Node nextNode;
@@ -73,11 +100,11 @@ public class QuickPushDataStructure<T> implements IPQueue<T> {
             this.prevNode = prevNode;
         }
 
-        public Node getNextNode() {
+        private Node getNextNode() {
             return nextNode;
         }
 
-        public Node getPrevNode() {
+        private Node getPrevNode() {
             return prevNode;
         }
 
