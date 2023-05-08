@@ -48,3 +48,10 @@ and to prevent race conditions at the Pop method when accessing the head of the 
 Additionaly a Semphore is used to to control the value of the queue and to block thread from trying to Pop when the queue is empty.
 </p>
 
+<h2> Iterator </h2>
+<p>
+I have also provided an Iterator implementation for the sake of users who wish to traverse over the elements in the queue.<br>
+While it is not necessary for the Priority Queue data structure itself,<br>
+it provides better encapsulation in the test files and may be useful for some users.
+</p>
+
