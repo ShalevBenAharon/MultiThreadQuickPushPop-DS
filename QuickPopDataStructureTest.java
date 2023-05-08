@@ -57,14 +57,10 @@ class QuickPopDataStructureTest {
         classQueue.Push(new ClassMate("Yonatan",32));
         classQueue.Push(new ClassMate("Shalev",31));
 
-        QuickPopDataStructure.Node cur = classQueue.queueHead;
-        for(int i = 0; i < 6 ; ++i){
-            System.out.println(((ClassMate)cur.getData()).name);
-            cur = cur.getNextNode();
-        }
         assertEquals("Kosta",((ClassMate)classQueue.Pop()).name);
-        assertEquals("Shani",((ClassMate)classQueue.Pop()).name);
         assertEquals("Yonatan",((ClassMate)classQueue.Pop()).name);
+        assertEquals("Shani",((ClassMate)classQueue.Pop()).name);
+        assertEquals("Shalev",((ClassMate)classQueue.Pop()).name);
     }
 
 }
