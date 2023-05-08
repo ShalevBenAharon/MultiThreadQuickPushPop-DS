@@ -1,6 +1,6 @@
 # Quick Push & Pop PQ
 
-<h1> Description : <h1>
+<h1> Description : </h1>
 
 This Project is a Thread safe PQ data structure with two diffrent implemention of PQ: 
 *Quick POP data structure.
