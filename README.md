@@ -7,13 +7,12 @@ This Project is Priority Queue data structure with the ability to push elements 
 <h1> Usage </h1>
 To use these implementations of Priority Queue, you will need to provide a comparator to determine the order of objects in your queue.
 <b>**Please note </b> that there are two different implementations for the PQ with different time complexities for push and pop.
- ```java
+ (```)
  QuickPopDataStructure<Integer> PQ = new QuickPopDataStructure(new TestIntComperator());
  PQ.push(3);
  PQ.push(6);
  PQ.push(7);
- ```
- 
+ (```)
  <h1> Time Complexity </h1>
 <b>Quick POP data structure:</b>
  QuickPop peforme Push in time Complexity of O(n) 
