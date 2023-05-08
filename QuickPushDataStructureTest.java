@@ -13,21 +13,22 @@ class QuickPushDataStructureTest {
     @BeforeEach
     void setUp() {
         PQ = new QuickPushDataStructure<>(new TestIntComperator());
-        PQ.Push(3);
-        PQ.Push(6);
-        PQ.Push(7);
-        PQ.Push(2);
-        PQ.Push(4);
+        PQ.push(3);
+        PQ.push(6);
+        PQ.push(7);
+        PQ.push(2);
+        PQ.push(4);
 
     }
     @Test
     void pop() {
-        assertEquals(7,PQ.Pop());
-        assertEquals(6,PQ.Pop());
-        assertEquals(4,PQ.Pop());
-        assertEquals(3,PQ.Pop());
-        assertEquals(2,PQ.Pop());
+        assertEquals(7,PQ.pop());
+        assertEquals(6,PQ.pop());
+        assertEquals(4,PQ.pop());
+        assertEquals(3,PQ.pop());
+        assertEquals(2,PQ.pop());
     }
+
 
     class TestIntComperator implements Comparator<Integer> {
 
@@ -36,4 +37,6 @@ class QuickPushDataStructureTest {
             return  num1 - num2;
         }
     }
+
+
 }

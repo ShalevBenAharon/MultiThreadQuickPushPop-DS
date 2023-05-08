@@ -6,11 +6,11 @@ import java.util.concurrent.Semaphore;
 public class QuickPushDataStructure<T> implements IPQueue<T> {
 
     private Node<T> queueHead;
-    Comparator<T> comparator;
+    private Comparator<T> comparator;
 
-    Object pushLock = new Object();
-    Object popLock = new Object();
-    Semaphore resourceSemaphore = new Semaphore(0);
+    private Object pushLock = new Object();
+    private Object popLock = new Object();
+    private Semaphore resourceSemaphore = new Semaphore(0);
 
     public QuickPushDataStructure(Comparator<? extends T> comper) {
         comparator = (Comparator<T>) comper;
@@ -18,7 +18,7 @@ public class QuickPushDataStructure<T> implements IPQueue<T> {
     }
 
     @Override
-    public void Push(T data) {
+    public void push(T data) {
         synchronized (pushLock) {
 
             Node<T> newHead = new Node<>(data, queueHead, null);
@@ -27,9 +27,8 @@ public class QuickPushDataStructure<T> implements IPQueue<T> {
             resourceSemaphore.release();
         }
     }
-
     @Override
-    public T Pop() {
+    public T pop() {
         try{
             resourceSemaphore.acquire();
         }catch (InterruptedException e){
@@ -45,12 +44,17 @@ public class QuickPushDataStructure<T> implements IPQueue<T> {
                 }
                 curNode = curNode.nextNode;
             }
+            if (MaxNode.prevNode != null) {
+                MaxNode.prevNode.nextNode = MaxNode.nextNode;
+                MaxNode.nextNode.prevNode = MaxNode.prevNode;
 
-            MaxNode.prevNode.nextNode = MaxNode.nextNode;
-            MaxNode.nextNode.prevNode = MaxNode.prevNode;
-            MaxNode.nextNode = null;
+            }
+            else{
+                queueHead = queueHead.nextNode;
+                queueHead.prevNode = null;
+            }
             MaxNode.prevNode = null;
-
+            MaxNode.nextNode = null;
             return MaxNode.getData();
         }
     }

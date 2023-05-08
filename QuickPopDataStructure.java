@@ -18,45 +18,33 @@ public class QuickPopDataStructure<T> implements IPQueue<T> {
     }
 
     @Override
-    public void Push(T data) {
+    public void push(T data) {
         synchronized (lockPush) {
             Node<T> curNode = queueHead;
             Node<T> newNode = new Node(data, null, null);
 
             if (queueHead == null) {
                 queueHead = newNode;
-                pqSizeSemaphoe.release();
-                return;
             }
-            if (comparator.compare(curNode.data, newNode.data) < 0) {
+            else if (comparator.compare(curNode.data, newNode.data) < 0) {
                 newNode.nextNode = curNode;
                 curNode.prevNode = newNode;
                 queueHead = newNode;
-                pqSizeSemaphoe.release();
-                return;
             }
-            while (curNode.nextNode != null && comparator.compare(curNode.data, newNode.data) > 0) {
-                curNode = curNode.nextNode;
+            else {
+                while (curNode.nextNode != null && comparator.compare(curNode.data, newNode.data) > 0) {
+                    curNode = curNode.nextNode;
+                }
+                insertNode(curNode, newNode);
             }
 
-            if (curNode.nextNode == null) {
-                newNode.prevNode = curNode;
-                curNode.nextNode = newNode;
-
-            } else {
-                newNode.nextNode = curNode;
-                newNode.prevNode = curNode.prevNode;
-                curNode.prevNode.nextNode = newNode;
-                curNode.prevNode = newNode;
-            }
             pqSizeSemaphoe.release();
         }
     }
 
     @Override
-    public T Pop() {
+    public T pop() {
         T data = null;
-
         try {
             pqSizeSemaphoe.acquire();
 
@@ -68,11 +56,23 @@ public class QuickPopDataStructure<T> implements IPQueue<T> {
         } catch (Exception e) {
             throw new RuntimeException("Thread interuppted");
         }
-
         return data;
     }
 
-     class Node<T> {
+    private void insertNode(Node curNode, Node newNode) {
+
+        if (curNode.nextNode == null ) {
+            newNode.prevNode = curNode;
+            curNode.nextNode = newNode;
+
+        } else {
+            newNode.nextNode = curNode;
+            newNode.prevNode = curNode.prevNode;
+            curNode.prevNode.nextNode = newNode;
+            curNode.prevNode = newNode;
+        }
+    }
+      class Node<T> {
 
         private Node nextNode;
 

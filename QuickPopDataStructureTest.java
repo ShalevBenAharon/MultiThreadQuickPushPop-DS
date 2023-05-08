@@ -1,6 +1,5 @@
 package DeveloperExercise;
 
-import com.sun.org.apache.bcel.internal.util.ClassQueue;
 import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;
@@ -14,11 +13,11 @@ class QuickPopDataStructureTest {
         QuickPopDataStructure<Integer> PQ = new QuickPopDataStructure(new TestIntComperator());
         QuickPopDataStructure<ClassMate> classQueue = new QuickPopDataStructure<>(new AgeTestCmpr());
 
-        PQ.Push(3);
-        PQ.Push(6);
-        PQ.Push(7);
-        PQ.Push(2);
-        PQ.Push(4);
+        PQ.push(3);
+        PQ.push(6);
+        PQ.push(7);
+        PQ.push(2);
+        PQ.push(4);
 
         assertEquals(7, PQ.queueHead.getData());
         assertEquals(6, PQ.queueHead.getNextNode().getData());
@@ -26,43 +25,42 @@ class QuickPopDataStructureTest {
         assertEquals(3, PQ.queueHead.getNextNode().getNextNode().getNextNode().getData());
         assertEquals(2, PQ.queueHead.getNextNode().getNextNode().getNextNode().getNextNode().getData());
 
-        classQueue.Push(new ClassMate("Shani",32));
-        classQueue.Push(new ClassMate("Ouri",26));
-        classQueue.Push(new ClassMate("Kosta",33));
-        classQueue.Push(new ClassMate("Racheli",23));
-        classQueue.Push(new ClassMate("Lin",26));
-        classQueue.Push(new ClassMate("Yonatan",32));
-        classQueue.Push(new ClassMate("Shalev",31));
+        classQueue.push(new ClassMate("Shani",32));
+        classQueue.push(new ClassMate("Ouri",26));
+        classQueue.push(new ClassMate("Kosta",33));
+        classQueue.push(new ClassMate("Racheli",23));
+        classQueue.push(new ClassMate("Lin",26));
+        classQueue.push(new ClassMate("Yonatan",32));
+        classQueue.push(new ClassMate("Shalev",31));
     }
 
     @Test
-    void Pop() {
+    void pop() {
         QuickPopDataStructure<Integer> PQ = new QuickPopDataStructure(new TestIntComperator());
         QuickPopDataStructure<ClassMate> classQueue = new QuickPopDataStructure<>(new AgeTestCmpr());
-        PQ.Push(3);
-        PQ.Push(6);
-        PQ.Push(7);
-        PQ.Push(2);
-        PQ.Push(4);
+        PQ.push(3);
+        PQ.push(6);
+        PQ.push(7);
+        PQ.push(2);
+        PQ.push(4);
 
-        assertEquals(7, PQ.Pop());
-        assertEquals(6, PQ.Pop());
+        assertEquals(7, PQ.pop());
+        assertEquals(6, PQ.pop());
         assertEquals(4, PQ.queueHead.getData());
 
-        classQueue.Push(new ClassMate("Shani",32));
-        classQueue.Push(new ClassMate("Ouri",26));
-        classQueue.Push(new ClassMate("Kosta",33));
-        classQueue.Push(new ClassMate("Racheli",23));
-        classQueue.Push(new ClassMate("Lin",26));
-        classQueue.Push(new ClassMate("Yonatan",32));
-        classQueue.Push(new ClassMate("Shalev",31));
+        classQueue.push(new ClassMate("Shani",32));
+        classQueue.push(new ClassMate("Ouri",26));
+        classQueue.push(new ClassMate("Kosta",33));
+        classQueue.push(new ClassMate("Racheli",23));
+        classQueue.push(new ClassMate("Lin",26));
+        classQueue.push(new ClassMate("Yonatan",32));
+        classQueue.push(new ClassMate("Shalev",31));
 
-        assertEquals("Kosta",((ClassMate)classQueue.Pop()).name);
-        assertEquals("Yonatan",((ClassMate)classQueue.Pop()).name);
-        assertEquals("Shani",((ClassMate)classQueue.Pop()).name);
-        assertEquals("Shalev",((ClassMate)classQueue.Pop()).name);
+        assertEquals("Kosta",((ClassMate)classQueue.pop()).name);
+        assertEquals("Yonatan",((ClassMate)classQueue.pop()).name);
+        assertEquals("Shani",((ClassMate)classQueue.pop()).name);
+        assertEquals("Shalev",((ClassMate)classQueue.pop()).name);
     }
-
 }
 
 class TestIntComperator implements Comparator<Integer> {
