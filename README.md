@@ -24,9 +24,9 @@ To use these implementations of Priority Queue, you will need to provide a compa
  
  #Pop :
  ```java
- PQ.push(3);
- PQ.push(6);
- PQ.push(7);
+ PQ.pop(3);
+ PQ.pop(6);
+ PQ.pop(7);
  ```
  
  <h2> Time Complexity </h2>
